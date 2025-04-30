@@ -66,8 +66,10 @@ def call(dockerRepoName, imageName, portNum, app_name)
           
           stage('Test and Coverage') {
               steps {
+                script {
                   sh 'mkdir -p test-reports coverage-reports'
-                  sh 'venv/bin/pytest . --ds=${app_name}.test_settings --junitxml=test-reports/junit.xml --cov=. --cov-report=xml:coverage-reports/coverage.xml'
+                  sh "venv/bin/pytest . --ds=${app_name}.test_settings --junitxml=test-reports/junit.xml --cov=. --cov-report=xml:coverage-reports/coverage.xml"
+                }
               }
               post {
                   always {
