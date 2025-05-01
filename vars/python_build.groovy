@@ -51,6 +51,16 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       echo 'Running Build Stages...'
                       // Additional build steps if needed
                       sh 'venv/bin/python manage.py check'
+
+                      withSonarQubeEnv('SonarQube'){
+                        sh """
+                          sonar-scanner \
+                            -Dsonar.projectKey=${dockerRepoName} \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://185.123.68.55:9000/sonarqube \
+                            -Dsonar.login=f8ebad24272c1a40916fce0bcf4428f23cca7b80
+                        """
+                      }
                   }
               }
           }
