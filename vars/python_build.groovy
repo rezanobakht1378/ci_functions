@@ -64,7 +64,13 @@ def call(dockerRepoName, imageName, portNum, app_name)
                   }
               }
           }
-          
+          stage ("Quality Gate"){
+            steps {
+              timeout (time: 1, unit 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
           stage('Python Lint') {
               steps {
                   script {
