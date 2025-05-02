@@ -58,7 +58,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                             -Dsonar.projectKey=${dockerRepoName} \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://185.123.68.55:9000/sonarqube \
-                            -Dsonar.login=f8ebad24272c1a40916fce0bcf4428f23cca7b80
+                            -Dsonar.token=f8ebad24272c1a40916fce0bcf4428f23cca7b80
                         """
                       }
                   }
