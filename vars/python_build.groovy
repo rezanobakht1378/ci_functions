@@ -38,7 +38,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       // Install pylint in the virtual environment
                       sh 'venv/bin/pip install pylint pylint-django'
                       sh 'venv/bin/pip install pytest pytest-django pytest-cov'
-      
+                      sh 'venv/bin/pip install pysonar'
                       // Install dependencies
                       sh 'venv/bin/pip install -r requirements.txt'
                   }
@@ -54,7 +54,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
 
                       withSonarQubeEnv('SonarQube'){
                         sh """
-                          sonar-scanner \
+                          pysonar \
                             -Dsonar.projectKey=${dockerRepoName} \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://185.123.68.55:9000/sonarqube \
