@@ -54,11 +54,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
 
                       withSonarQubeEnv('SonarQube'){
                         sh """
-                          pysonar \
-                            -Dsonar.projectKey=${dockerRepoName} \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://185.123.68.55:9000/sonarqube \
-                            -Dsonar.token=f8ebad24272c1a40916fce0bcf4428f23cca7b80
+                          pysonar --verbose -Dsonar.projectKey=Metaverse-MindGym-GameRegistry -Dsonar.sources=. -Dsonar.host.url=http://185.123.68.55:9000/sonarqube -Dsonar.token=f8ebad24272c1a40916fce0bcf4428f23cca7b80
                         """
                       }
                   }
