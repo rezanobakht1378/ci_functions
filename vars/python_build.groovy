@@ -17,8 +17,6 @@ def call(dockerRepoName, imageName, portNum, app_name)
                   script {
                       // Display the location of the workspace
                       echo "Running ${env.BUILD_ID} with workspace ${env.WORKSPACE}"
-                      sh 'apt-get update'
-                      sh 'apt-get install -y graphviz graphviz-dev build-essential python3-dev pkg-config'
                       // Cleanup test-reports, api-test-reports, and venv directories if they exist
                       echo 'Cleaning up test-reports'
                       sh 'rm -rf test-reports || true'
