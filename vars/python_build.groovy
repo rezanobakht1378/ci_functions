@@ -44,31 +44,14 @@ def call(dockerRepoName, imageName, portNum, app_name)
                   }
               }
           }
-          
           stage('Build') {
               steps {
                   script {
                       echo 'Running Build Stages...'
                       // Additional build steps if needed
                       sh 'venv/bin/python manage.py check'
-
-                      withSonarQubeEnv('SonarQube'){
-                        // sh """
-                        //   pysonar --verbose --token sqp_4257a54efc1cb24529fd91b4d4639b23f27ff3f1 -Dsonar.projectKey=Metaverse-MindGym-GameRegistry -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.login=sqp_4257a54efc1cb24529fd91b4d4639b23f27ff3f1
-                        // """
-                        sh """
-                        sonar-scanner -Dsonar.projectKey=${dockerRepoName} -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.token=squ_30c80d59a26a40b32d3c9074790bb577ba41deda
-                        """
-                      }
                   }
               }
-          }
-          stage ("Quality Gate"){
-            steps {
-              timeout (time: 1, unit: 'HOURS') {
-                waitForQualityGate abortPipeline: true
-              }
-            }
           }
           stage('Python Lint') {
               steps {
@@ -78,7 +61,6 @@ def call(dockerRepoName, imageName, portNum, app_name)
                   }
               }
           }
-          
           stage('Test and Coverage') {
               steps {
                 script {
@@ -93,6 +75,26 @@ def call(dockerRepoName, imageName, portNum, app_name)
                   }
               }
           }
+          stage ("SonarQube Code Analyzer"){
+            steps {
+              script {
+                      echo 'Running Code Analyzer Stages...'
+                      withSonarQubeEnv('SonarQube'){
+                        sh """
+                        sonar-scanner -Dsonar.projectKey=${dockerRepoName} -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.token=squ_30c80d59a26a40b32d3c9074790bb577ba41deda
+                        """
+                      }
+                  }
+            }
+          }
+          stage ("Quality Gate"){
+            steps {
+              timeout (time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+          
           stage('Package') {
               when {
                   expression {
@@ -117,7 +119,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
           stage('Zip Artifacts') {
               steps {
                   // Create a zip file with all necessary files
-                  sh 'zip -r app.zip . -i "*.py" "requirements.txt" -x "venv/*"'
+                  sh 'zip -r app.zip . -i "*.py" "requirements.txt" ".env" -x "venv/*"'
               }
               post {
                   always {
