@@ -37,7 +37,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       // Install pylint in the virtual environment
                       sh 'venv/bin/pip install pylint pylint-django'
                       sh 'venv/bin/pip install pytest pytest-django pytest-cov'
-                      sh 'venv/bin/pip install pysonar'
+                      // sh 'venv/bin/pip install pysonar'
                       // Install dependencies
                       sh 'venv/bin/pip install -r requirements.txt'
                   }
@@ -52,8 +52,11 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       sh 'venv/bin/python manage.py check'
 
                       withSonarQubeEnv('SonarQube'){
+                        // sh """
+                        //   pysonar --verbose --token sqp_4257a54efc1cb24529fd91b4d4639b23f27ff3f1 -Dsonar.projectKey=Metaverse-MindGym-GameRegistry -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.login=sqp_4257a54efc1cb24529fd91b4d4639b23f27ff3f1
+                        // """
                         sh """
-                          pysonar --verbose --token sqp_4257a54efc1cb24529fd91b4d4639b23f27ff3f1 -Dsonar.projectKey=Metaverse-MindGym-GameRegistry -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.login=sqp_4257a54efc1cb24529fd91b4d4639b23f27ff3f1
+                        sonar-scanner -Dsonar.projectKey=Metaverse-MindGym-GameRegistry -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.token=sqp_4257a54efc1cb24529fd91b4d4639b23f27ff3f1
                         """
                       }
                   }
