@@ -2,7 +2,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
 {
   pipeline {
     agent { 
-      label 'python_agent'
+      label 'python_agent',
       docker {
         image 'python:3.11'
         args '-v /var/run/docker.sock:/var/run/docker.sock'
