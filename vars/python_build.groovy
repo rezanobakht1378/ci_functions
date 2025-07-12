@@ -110,10 +110,10 @@ def call(dockerRepoName, imageName, portNum, app_name)
                           //sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir" //docker not found
                           sh "echo \$TOKEN | docker login -u reza_nobakht --password-stdin docker.roshanjoo.ir"
                           //sh "docker build -t docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:latest --tag docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:${imageName} ."
-                          sh "docker build -t docker.roshanjoo.ir/bashir/${imageName}:latest -t docker.roshanjoo.ir/bashir/${imageName}:1.0.0 ."
+                          sh "docker build -t docker.roshanjoo.ir/bashir/${imageName.toLowerCase()}:latest -t docker.roshanjoo.ir/bashir/${imageName.toLowerCase()}:1.0.0 ."
                           //sh "docker push docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:${imageName}"
-                          sh "docker push docker.roshanjoo.ir/bashir/${imageName}:latest"
-                          sh "docker push docker.roshanjoo.ir/bashir/${imageName}:1.0.0"
+                          sh "docker push docker.roshanjoo.ir/bashir/${imageName.toLowerCase()}:latest"
+                          sh "docker push docker.roshanjoo.ir/bashir/${imageName.toLowerCase()}:1.0.0"
                       }
                       
                   }
