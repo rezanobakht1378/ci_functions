@@ -106,11 +106,11 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       echo "Must Build Docker Image and push to docker registery!!!"
                       // Docker build and push (uncomment when ready)
                       
-                      withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                          sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir"
-                          sh "docker build -t ${dockerRepoName}:latest --tag bashir/${dockerRepoName}:${imageName} ."
-                          sh "docker push bashir/${dockerRepoName}:${imageName}"
-                      }
+                      // withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                      //     sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir" //docker not found
+                      //     sh "docker build -t ${dockerRepoName}:latest --tag bashir/${dockerRepoName}:${imageName} ."
+                      //     sh "docker push bashir/${dockerRepoName}:${imageName}"
+                      // }
                       
                   }
               }
