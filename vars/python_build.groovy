@@ -107,9 +107,13 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       // Docker build and push (uncomment when ready)
                       
                       withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                          sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir" //docker not found
-                          sh "docker build -t ${dockerRepoName.toLowerCase()}:latest --tag ${dockerRepoName.toLowerCase()}:${imageName} ."
-                          sh "docker push docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:${imageName}"
+                          //sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir" //docker not found
+                          sh "echo \$TOKEN | docker login -u reza_nobakht --password-stdin docker.roshanjoo.ir"
+                          //sh "docker build -t docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:latest --tag docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:${imageName} ."
+                          sh "docker build -t docker.roshanjoo.ir/bashir/${imageName}:latest -t docker.roshanjoo.ir/bashir/${imageName}:1.0.0 ."
+                          //sh "docker push docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:${imageName}"
+                          sh "docker push docker.roshanjoo.ir/bashir/${imageName}:latest"
+                          sh "docker push docker.roshanjoo.ir/bashir/${imageName}:1.0.0"
                       }
                       
                   }
