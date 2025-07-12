@@ -1,18 +1,12 @@
 def call(dockerRepoName, imageName, portNum, app_name)
 {
   pipeline {
-    agent { 
-      label 'python_agent',
-      docker {
-        image 'python:3.11'
-        args '-v /var/run/docker.sock:/var/run/docker.sock'
-      }
+    agent { label 'python_agent' }
+    environment {
+      // Define the virtual environment's bin directory path
+      VIRTUAL_ENV = "${WORKSPACE}/venv"
+      PATH = "${VIRTUAL_ENV}/bin:${env.PATH}"
     }
-          environment {
-              // Define the virtual environment's bin directory path
-              VIRTUAL_ENV = "${WORKSPACE}/venv"
-              PATH = "${VIRTUAL_ENV}/bin:${env.PATH}"
-          }
           parameters {
               booleanParam(defaultValue: false, description: 'Deploy the App', name:'DEPLOY')
           }
