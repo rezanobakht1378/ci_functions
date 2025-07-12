@@ -108,7 +108,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       
                       withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
                           sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir" //docker not found
-                          sh "docker build -t docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:latest --tag ${dockerRepoName.toLowerCase()}:${imageName} ."
+                          sh "docker build -t ${dockerRepoName.toLowerCase()}:latest --tag ${dockerRepoName.toLowerCase()}:${imageName} ."
                           sh "docker push docker.roshanjoo.ir/bashir/${dockerRepoName.toLowerCase()}:${imageName}"
                       }
                       
