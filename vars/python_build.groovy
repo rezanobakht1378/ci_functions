@@ -1,7 +1,13 @@
 def call(dockerRepoName, imageName, portNum, app_name)
 {
   pipeline {
-    agent { label 'python_agent' }
+    agent { 
+      label 'python_agent'
+      docker {
+        image 'python:3.11'
+        args '-v /var/run/docker.sock:/var/run/docker.sock'
+      }
+    }
           environment {
               // Define the virtual environment's bin directory path
               VIRTUAL_ENV = "${WORKSPACE}/venv"
@@ -106,11 +112,11 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       echo "Must Build Docker Image and push to docker registery!!!"
                       // Docker build and push (uncomment when ready)
                       
-                      // withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                      //     sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir" //docker not found
-                      //     sh "docker build -t ${dockerRepoName}:latest --tag bashir/${dockerRepoName}:${imageName} ."
-                      //     sh "docker push bashir/${dockerRepoName}:${imageName}"
-                      // }
+                      withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                          sh "docker login -u 'reza_nobakht' -p '$TOKEN' docker.roshanjoo.ir" //docker not found
+                          sh "docker build -t ${dockerRepoName}:latest --tag bashir/${dockerRepoName}:${imageName} ."
+                          sh "docker push bashir/${dockerRepoName}:${imageName}"
+                      }
                       
                   }
               }
