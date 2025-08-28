@@ -81,6 +81,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
               }
               post {
                   always {
+                    sh 'docker rm -f test-postgres || true'
                     junit 'test-reports/junit.xml'
                     // publishCoverage adapters: [coberturaAdapter('coverage-reports/coverage.xml')]
                   }
