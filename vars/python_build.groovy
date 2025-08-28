@@ -51,6 +51,12 @@ def call(dockerRepoName, imageName, portNum, app_name)
                         -e POSTGRES_DB=db \
                         -p 5432:5432 \
                         postgres:17.4 || true
+
+                      until docker exec test-postgres pg_isready -U user -d db; do
+                        echo "Waiting for Postgres to be ready..."
+                        sleep 2
+                      done
+                      echo "Postgres is ready!"
                       '''
                       sleep 10
                   }
