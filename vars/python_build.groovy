@@ -51,7 +51,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                         -p 5432:5432 \
                         postgres:17.4
                       '''
-                      sleep 10  # give Postgres time to start
+                      sleep 10
                   }
               }
           }
