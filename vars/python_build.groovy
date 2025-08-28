@@ -50,7 +50,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                         -e POSTGRES_PASSWORD=password \
                         -e POSTGRES_DB=db \
                         -p 5432:5432 \
-                        postgres:17.4
+                        postgres:17.4 || true
                       '''
                       sleep 10
                   }
