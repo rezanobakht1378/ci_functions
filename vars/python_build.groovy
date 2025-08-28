@@ -45,7 +45,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       sh '''
                       docker run -d \
                         --name test-postgres \
-                        --network jenkins-network \
+                        --network cicd_jenkins-network \
                         -e POSTGRES_USER=user \
                         -e POSTGRES_PASSWORD=password \
                         -e POSTGRES_DB=db \
