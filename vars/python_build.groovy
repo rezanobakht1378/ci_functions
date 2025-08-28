@@ -2,17 +2,6 @@ def call(dockerRepoName, imageName, portNum, app_name)
 {
   pipeline {
     agent { label 'python_agent' }
-    services {
-        postgres {
-            image 'postgres:17.4'
-            environment {
-                POSTGRES_USER = 'user'
-                POSTGRES_PASSWORD = 'password'
-                POSTGRES_DB = 'db'
-            }
-            ports = ['5432:5432']
-        }
-    }
     environment {
       // Define the virtual environment's bin directory path
       VIRTUAL_ENV = "${WORKSPACE}/venv"
@@ -52,6 +41,17 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       // Install dependencies
                       sh 'venv/bin/pip install -r requirements.txt'
                       sh 'cp .env_example .env || true'
+
+                      sh '''
+                      docker run -d \
+                        --name test-postgres \
+                        -e POSTGRES_USER=user \
+                        -e POSTGRES_PASSWORD=password \
+                        -e POSTGRES_DB=db \
+                        -p 5432:5432 \
+                        postgres:17.4
+                      '''
+                      sleep 10  # give Postgres time to start
                   }
               }
           }
