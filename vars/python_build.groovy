@@ -101,7 +101,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       echo 'Running Code Analyzer Stages...'
                       withSonarQubeEnv('SonarQube'){
                         sh """
-                        sonar-scanner -Dsonar.projectKey=${dockerRepoName} -Dsonar.sources=. -Dsonar.tests=tests -Dsonar.test.inclusions=**/*_test.py,**/test_*.py -Dsonar.exclusions=**/migrations/** -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.token=squ_30c80d59a26a40b32d3c9074790bb577ba41deda -Dsonar.python.coverage.reportPaths=coverage-reports/coverage.xml
+                        sonar-scanner -Dsonar.projectKey=${dockerRepoName} -Dsonar.sources=. -Dsonar.tests=**/tests -Dsonar.test.inclusions=**/*_test.py,**/test_*.py -Dsonar.exclusions=**/migrations/** -Dsonar.host.url=https://sonarqube.meshkatgames.ir/sonarqube -Dsonar.token=squ_30c80d59a26a40b32d3c9074790bb577ba41deda -Dsonar.python.coverage.reportPaths=coverage-reports/coverage.xml
                         """
                       }
                   }
