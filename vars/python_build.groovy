@@ -37,6 +37,11 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       // Install pylint in the virtual environment
                       sh 'venv/bin/pip install pylint pylint-django'
                       sh 'venv/bin/pip install pytest pytest-django pytest-cov'
+                      sh '''
+                          apt-get update -y
+                          apt-get install -y graphviz libgraphviz-dev pkg-config
+                      '''
+
                       // sh 'venv/bin/pip install pysonar'
                       // Install dependencies
                       sh 'venv/bin/pip install -r requirements.txt'
