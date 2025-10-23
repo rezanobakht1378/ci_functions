@@ -40,7 +40,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
 
                       // sh 'venv/bin/pip install pysonar'
                       // Install dependencies
-                      sh 'venv/bin/pip install -r requirements.txt'
+                      sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ -r requirements.txt'
                       sh 'cp .env_example .env || true'
 
                       sh '''
