@@ -35,7 +35,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ coverage'
       
                       // Install pylint in the virtual environment
-                      sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ pylint pylint-django astroid'
+                      sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ pylint:3.2.6 pylint-django:2.6.0 astroid:3.2.4'
                       sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ pytest pytest-django pytest-cov'
 
                       // sh 'venv/bin/pip install pysonar'
