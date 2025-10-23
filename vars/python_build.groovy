@@ -30,13 +30,13 @@ def call(dockerRepoName, imageName, portNum, app_name)
                       // Create the virtual environment
                       sh 'python3 --version || echo "Python 3 not found"'
                       sh 'python3 -m venv venv'
-  
+
                       // Install coverage in the virtual environment
-                      sh 'venv/bin/pip install coverage'
+                      sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ coverage'
       
                       // Install pylint in the virtual environment
-                      sh 'venv/bin/pip install pylint pylint-django'
-                      sh 'venv/bin/pip install pytest pytest-django pytest-cov'
+                      sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ pylint pylint-django'
+                      sh 'venv/bin/pip install --trusted-host https://pypi.tuna.tsinghua.edu.cn -i https://pypi.tuna.tsinghua.edu.cn/simple/ pytest pytest-django pytest-cov'
 
                       // sh 'venv/bin/pip install pysonar'
                       // Install dependencies
