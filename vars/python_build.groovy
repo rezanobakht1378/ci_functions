@@ -118,7 +118,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
           stage('Package') {
               when {
                   expression {
-                      return (env.GIT_BRANCH == 'origin/main')
+                      return (env.GIT_BRANCH == 'origin/main' && params.DEPLOY)
                   }
               }
               steps {
