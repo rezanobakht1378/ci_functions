@@ -1,4 +1,5 @@
-def call(dockerRepoName, imageName, portNum, app_name) {
+def call(dockerRepoName, imageName, portNum, app_name)
+{
   pipeline {
     agent { label 'node_agent' }
 
@@ -20,15 +21,12 @@ def call(dockerRepoName, imageName, portNum, app_name) {
 
             sh '''
               rm -rf node_modules .next coverage test-reports || true
-              node --version
-              npm --version
-              if [ ! -f .env.example ]; then
-                echo "WARNING: .env.example missing, creating empty one"
-                touch .env.example
-              fi
-              cp .env.example .env || true
-              npm ci
+              node --version || exit 1
+              npm --version || exit 1
+              npm config set registry https://registry.npmmirror.com
             '''
+            sh 'cp .env.example .env || true'
+            sh 'npm ci'
           }
         }
       }
@@ -47,8 +45,8 @@ def call(dockerRepoName, imageName, portNum, app_name) {
           script {
             echo 'Running Tests...'
             sh '''
-              mkdir -p test-reports coverage
-              npm run test -- --ci --reporters=default --reporters=jest-junit --coverage
+              mkdir -p test-reports
+              npm run test -- --ci --reporters=default --reporters=jest-junit
             '''
           }
         }
@@ -69,9 +67,6 @@ def call(dockerRepoName, imageName, portNum, app_name) {
       }
 
       stage('SonarQube Code Analyzer') {
-        when {
-          expression { return params.DEPLOY } // optional: only run on deploy
-        }
         steps {
           script {
             withSonarQubeEnv('SonarQube') {
@@ -97,9 +92,11 @@ def call(dockerRepoName, imageName, portNum, app_name) {
         }
       }
 
-      stage('Package Docker') {
+      stage('Package') {
         when {
-          expression { params.DEPLOY && env.GIT_BRANCH == 'origin/main' }
+          expression {
+            return (env.GIT_BRANCH == 'origin/main' && params.DEPLOY)
+          }
         }
         steps {
           script {
@@ -137,7 +134,7 @@ def call(dockerRepoName, imageName, portNum, app_name) {
         }
       }
 
-      stage('Deploy') {
+      stage('Deliver') {
         when {
           expression { params.DEPLOY }
         }
@@ -155,7 +152,6 @@ def call(dockerRepoName, imageName, portNum, app_name) {
           }
         }
       }
-
-    } // stages
-  } // pipeline
-} // call
+    }
+  }
+}
