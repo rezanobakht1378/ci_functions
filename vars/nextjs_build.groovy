@@ -81,7 +81,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
                   -Dsonar.sources=. \
                   -Dsonar.exclusions=node_modules/**,.next/**,coverage/** \
                   -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                  -Dsonar.host.url=http://185.123.68.55:9000/sonarqube \
+                  -Dsonar.host.url=http://185.123.68.55:9000 \
                   -Dsonar.token=squ_30c80d59a26a40b32d3c9074790bb577ba41deda
               """
             }
