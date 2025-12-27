@@ -4,7 +4,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
     agent { label 'node_agent' }
 
     environment {
-      NODE_ENV = 'production'
+      // NODE_ENV = 'production'
       PATH = "${env.WORKSPACE}/node_modules/.bin:${env.PATH}"
     }
 
