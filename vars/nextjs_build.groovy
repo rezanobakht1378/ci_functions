@@ -41,12 +41,17 @@ def call(dockerRepoName, imageName, portNum, app_name)
       }
 
       stage('Test') {
+        when {
+          expression {
+            fileExists('jest.config.js')
+          }
+        }
         steps {
           script {
             echo 'Running Tests...'
             sh '''
               mkdir -p test-reports
-              npm run test -- --ci --reporters=default --reporters=jest-junit
+              npm run test --ci --reporters=default --reporters=jest-junit
             '''
           }
         }
