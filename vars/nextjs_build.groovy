@@ -26,7 +26,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
               npm config set registry https://registry.npmmirror.com
             '''
             sh 'cp .env.example .env || true'
-            sh 'npm ci --verbose'
+            sh 'npm ci --include=dev --verbose'
           }
         }
       }
