@@ -25,8 +25,9 @@ def call(dockerRepoName, imageName, portNum, app_name)
               npm --version || exit 1
             '''
 
-            sh 'npm ci'
             sh 'cp .env.example .env || true'
+            sh 'npm ci'
+            sh 'npm install --save-dev typescript @types/node @types/react @types/react-dom'
           }
         }
       }
