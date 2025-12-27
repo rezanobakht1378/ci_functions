@@ -22,6 +22,10 @@ def call(dockerRepoName, imageName, portNum, app_name) {
               rm -rf node_modules .next coverage test-reports || true
               node --version
               npm --version
+              if [ ! -f .env.example ]; then
+                echo "WARNING: .env.example missing, creating empty one"
+                touch .env.example
+              fi
               cp .env.example .env || true
               npm ci
             '''
