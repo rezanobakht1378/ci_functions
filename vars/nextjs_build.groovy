@@ -1,5 +1,4 @@
-def call(dockerRepoName, imageName, portNum, app_name)
-{
+def call(dockerRepoName, imageName, portNum, app_name) {
   pipeline {
     agent { label 'node_agent' }
 
@@ -21,12 +20,11 @@ def call(dockerRepoName, imageName, portNum, app_name)
 
             sh '''
               rm -rf node_modules .next coverage test-reports || true
-              node --version || exit 1
-              npm --version || exit 1
+              node --version
+              npm --version
+              cp .env.example .env || true
+              npm ci
             '''
-
-            sh 'cp .env.example .env || true'
-            sh 'npm ci'
           }
         }
       }
@@ -45,8 +43,8 @@ def call(dockerRepoName, imageName, portNum, app_name)
           script {
             echo 'Running Tests...'
             sh '''
-              mkdir -p test-reports
-              npm run test -- --ci --reporters=default --reporters=jest-junit
+              mkdir -p test-reports coverage
+              npm run test -- --ci --reporters=default --reporters=jest-junit --coverage
             '''
           }
         }
@@ -67,6 +65,9 @@ def call(dockerRepoName, imageName, portNum, app_name)
       }
 
       stage('SonarQube Code Analyzer') {
+        when {
+          expression { return params.DEPLOY } // optional: only run on deploy
+        }
         steps {
           script {
             withSonarQubeEnv('SonarQube') {
@@ -92,11 +93,9 @@ def call(dockerRepoName, imageName, portNum, app_name)
         }
       }
 
-      stage('Package') {
+      stage('Package Docker') {
         when {
-          expression {
-            return (env.GIT_BRANCH == 'origin/main' && params.DEPLOY)
-          }
+          expression { params.DEPLOY && env.GIT_BRANCH == 'origin/main' }
         }
         steps {
           script {
@@ -134,7 +133,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
         }
       }
 
-      stage('Deliver') {
+      stage('Deploy') {
         when {
           expression { params.DEPLOY }
         }
@@ -152,6 +151,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
           }
         }
       }
-    }
-  }
-}
+
+    } // stages
+  } // pipeline
+} // call
