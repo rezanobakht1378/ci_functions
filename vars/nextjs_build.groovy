@@ -1,7 +1,7 @@
 def call(dockerRepoName, imageName, portNum, app_name)
 {
   pipeline {
-    agent { label 'node_agent' }
+    agent { label 'python_agent' }
 
     environment {
       NODE_ENV = 'production'
