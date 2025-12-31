@@ -146,13 +146,14 @@ def call(dockerRepoName, imageName, portNum, app_name)
         steps {
           script {
             sh """
-              docker stop ${dockerRepoName} || true
-              docker rm ${dockerRepoName} || true
+              docker compose up -d --build
+              // docker stop ${dockerRepoName} || true
+              // docker rm ${dockerRepoName} || true
 
-              docker run -d \
-                -p ${portNum}:3000 \
-                --name ${dockerRepoName} \
-                docker.roshanjoo.ir/bashir/${imageName.toLowerCase()}:latest
+              // docker run -d \
+              //   -p ${portNum}:3000 \
+              //   --name ${dockerRepoName} \
+              //   docker.roshanjoo.ir/bashir/${imageName.toLowerCase()}:latest
             """
           }
         }
