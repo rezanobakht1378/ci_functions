@@ -146,7 +146,7 @@ def call(dockerRepoName, imageName, portNum, app_name)
         steps {
           script {
             sh """
-              docker-compose up -d --build
+              docker compose up -d --build
               // docker stop ${dockerRepoName} || true
               // docker rm ${dockerRepoName} || true
 
